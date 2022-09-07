@@ -1,0 +1,532 @@
+openapi: 3.0.3
+info:
+  title: Alfred prueba tecnica
+  description: Esta es la documentación de la prueba tecnica para ALFRED
+  contact:
+    email: saircontactoramos@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+tags:
+  - name: pedidos
+    description: CRUD para los pedidos
+    
+  - name: conductores
+    description: CRUD y otras operaciones para los conductores
+
+
+paths:
+  /pedidos/:
+    get:
+      tags:
+        - pedidos
+      summary: Trae pedidos
+      description: Retorna un unico pedido
+      operationId: getPedidos
+      parameters:
+        - name: fecha
+          in: query
+          description: Dia de los pedidos
+          required: false
+          schema:
+            type: string
+
+        - name: conductor
+          in: query
+          description: ID del conductor
+          required: false
+          schema:
+            type: string
+            format: int64
+            
+        - name: ordering
+          in: query
+          description: forma de ordenamiento (hora o -hora)
+          required: false
+          schema:
+            type: string
+            
+            
+        
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pedido'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pedido'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pedido not found
+    put:
+      tags:
+        - pedidos
+      summary: Actualizar un pedido
+      description: Actualiza un pedido existent por id
+      operationId: updatePedido
+      requestBody:
+        description: Alctualiza un pedido existente
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pedido'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Pedido'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Pedido'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pedido'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pedido'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pedido not found
+        '405':
+          description: Validation exception
+    post:
+      tags:
+        - pedidos
+      summary: Agrega un nuevo pedido 
+      description: Agrega un nuevo pedido
+      operationId: addPedido
+      requestBody:
+        description: Crea un nuevo pedido
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pedido'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Pedido'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Pedido'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pedido'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pedido'
+        '405':
+          description: Invalid input
+
+  /pedidos/{pedidoId}/:
+    get:
+      tags:
+        - pedidos
+      summary: Trae pedido por su id
+      description: Retorna un unico pedido
+      operationId: getPedidoById
+      parameters:
+        - name: pedidoId
+          in: path
+          description: ID pedido a retornar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pedido'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Pedido'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Pedido not found
+          
+    post:
+      tags:
+        - pedidos
+      summary: Actualiza un pedido por si id 
+      description: ''
+      operationId: updatePedidoWithForm
+      parameters:
+        - name: pedidoId
+          in: path
+          description: ID del pedido a actualizar
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: lat_inicial
+          in: query
+          description: latitud inicial del pedido 
+          schema:
+            type: number
+        - name: lng_inicial
+          in: query
+          description: latitud inicial del pedido 
+          schema:
+            type: number
+            
+        - name: lat_final
+          in: query
+          description: latitud inicial del pedido 
+          schema:
+            type: number
+        - name: lng_final
+          in: query
+          description: latitud inicial del pedido 
+          schema:
+            type: number
+        
+        - name: fecha
+          in: query
+          description: Status of pet that needs to be updated
+          schema:
+            type: string
+            
+        - name: hora
+          in: query
+          description: Status of pet that needs to be updated
+          schema:
+            type: string
+            
+        - name: conductor
+          in: query
+          description: Status of pet that needs to be updated
+          schema:
+            type: number
+      responses:
+        '405':
+          description: Invalid input
+        
+        '200':
+          description: Pedido actualizado
+
+
+    delete:
+      tags:
+        - pedidos
+      summary: Deletes a pedido
+      description: delete a pedido
+      operationId: deletePedido
+      parameters:
+        - name: pedidoId
+          in: path
+          description: Pedido id a borrar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid pet value
+
+        '200':
+          description: Recurso eliminado
+          
+          
+      
+  /conductores/:
+    get:
+      tags:
+        - conductores
+      summary: Trae todos los conductores 
+      description: ''
+      operationId: getConductores
+            
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conductor'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Conductor'
+        '405':
+          description: Invalid input
+    post:
+      tags:
+        - conductores
+      summary: Crea un nuevo conductor  
+      description: ''
+      operationId: createConductorWithForm
+            
+        
+      requestBody:
+        description: Crea un nuevo conductor
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Conductor'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Conductor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Conductor'
+        required: true
+        
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conductor'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Conductor'
+        '405':
+          description: Invalid input
+          
+  /conductores/{conductorId}/:
+    get:
+      tags:
+        - conductores
+      summary: Trae un conductor por su id
+      description: Retorna un unico conductor
+      operationId: getConductorById
+      parameters:
+        - name: conductorId
+          in: path
+          description: ID conductor a retornar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conductor'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Conductor'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Conductor not found
+          
+    post:
+      tags:
+        - conductores
+      summary: Actualiza un conductor por su id 
+      description: ''
+      operationId: updateConductorWithForm
+         
+      parameters:
+        - name: conductorId
+          in: path
+          description: id del conductor a borrar
+          required: true
+          schema:
+            type: integer
+            format: int64   
+        
+      requestBody:
+        description: Crea un nuevo pedido
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Conductor'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Conductor'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Conductor'
+        required: true
+        
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conductor'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Conductor'
+        '405':
+          description: Invalid input
+        
+
+
+    delete:
+      tags:
+        - conductores
+      summary: Deletes a conductor
+      description: delete a conductor
+      operationId: deleteConductor
+      parameters:
+        - name: conductorId
+          in: path
+          description: id del conductor a borrar
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid conductor value
+
+        '200':
+          description: Recurso eliminado
+          
+  /conductores/conductor_cerca/:
+    post:
+      tags:
+        - conductores
+      summary: Trae una lista de conductores ordenados por la distancia con referencia al geoponit suministrado y que no tengan pedidos en la fecha y hora determinados
+      description: ''
+      operationId: getNearConuctor
+         
+
+        
+      requestBody:
+        description: Obtiene conductores cerca y con disponibilidad
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pedido2'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Pedido2'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Pedido2'
+        required: true
+        
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Conductor2'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Conductor2'
+        '405':
+          description: Invalid input
+      
+
+components:
+  schemas:
+    Pedido:
+      type: object
+      properties:
+        lat_inicial:
+          type: number
+          format: int64
+          example: 10.509
+          
+        lng_inicial:
+          type: number
+          format: int64
+          example: 11.509
+          
+        lat_final:
+          type: number
+          format: int64
+          example: 12.509
+          
+        lng_final:
+          type: number
+          format: int64
+          example: 13.509
+        
+        hora:
+          type: string
+          example: "10:00:00"
+          
+        fecha:
+          type: string
+          example: "2022-09-05"
+          
+        conductor:
+          type: integer
+          format: int64
+          example: 1
+      xml:
+        name: pedido
+    
+    Pedido2:
+      type: object
+      properties:
+        lat:
+          type: number
+          format: int64
+          example: 10.509
+          
+        lng:
+          type: number
+          format: int64
+          example: 11.509
+          
+        
+        hora:
+          type: string
+          example: "10:00:00"
+          
+        fecha:
+          type: string
+          example: "2022-09-05"
+          
+      xml:
+        name: pedido
+        
+    
+    Conductor:
+      type: object
+      properties:
+        nombre:
+          type: string 
+          example: "Oscar Belandia"
+          
+    Conductor2:
+      type: object
+      properties:
+        id:
+          type: number 
+          example: 1
+        lat:
+          type : number
+          example:  20.131
+        
+        lng:
+          type : number
+          example:  10.131
+          
+        distancia:
+          type : number
+          example:  10.0921020
+        
+        lastUpdate:
+          type : string
+          example:  "2021-05-09T22:00:23"
+          
+      xml:
+        name: pedido
