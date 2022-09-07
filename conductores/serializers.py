@@ -1,7 +1,9 @@
 from dataclasses import field
 from rest_framework import serializers
+from .models import conductor
 
 class conductorSerializer(serializers.ModelSerializer):
 
     class Meta:
-        fields = ('__all__')
+        model  = conductor
+        fields = '__all__'
